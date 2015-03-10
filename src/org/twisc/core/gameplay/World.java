@@ -10,9 +10,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Timer;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.SerializationUtils;
 import org.newdawn.slick.Graphics;
 import org.sparkle.jbind.*;
@@ -50,9 +52,9 @@ public final class World {
         public void run() {
             while (true) {
                 try {
-                checkChunk();                    
+                    checkChunk();
                 } catch (Exception e) {
-                e.printStackTrace();
+                    e.printStackTrace();
                 }
             }
         }
@@ -120,9 +122,9 @@ public final class World {
                  */
                 try {
                     JBinD bind = new JBinD();
-                    
+
                     File file = new File("terrain/part_" + String.valueOf(chunk.x).replace('-', 'n') + "_" + String.valueOf(chunk.y).replace('-', 'n') + ".chunk");
-                    
+
                     byte[] ter = new byte[256];
                     int caret = 0;
                     for (int x = 0; x < 16; x++) {
@@ -150,6 +152,7 @@ public final class World {
 
     public void init() {
         spawn("creatures.Player", 0.0, 0.0);
+        spawn("creatures.Mannequin", 0.0, 0.0);
     }
 
     public void pause() {
@@ -209,14 +212,14 @@ public final class World {
         camera.y = targetCamera.y;
         TerrainChunk terrain[] = new TerrainChunk[this.terrain.size()];
         for (int i = 0; true; i++) {
-            if(i>=this.terrain.size()){
+            if (i >= this.terrain.size()) {
                 break;
             }
             terrain[i] = this.terrain.get(i);
         }
         for (TerrainChunk tc : terrain) {
             glTranslated(-camera.x + Twisc.display_width / 2, -camera.y + Twisc.display_height / 2, 0);
-            tc.render(g);
+            tc.render(g, camera);
             glLoadIdentity();
         }
         for (Entity e : entitiesForRender()) {
@@ -251,6 +254,20 @@ public final class World {
             Entity en = entities.get(i);
             if (abs(en.x - camera.x) < Twisc.display_width / 2 && abs(en.y - camera.y) < Twisc.display_height / 2) {
                 e.add(en);
+
+            }
+        }
+        for (int i = 0; i < e.size(); i++) {
+            int h = i;
+            for (int j = 0; j < e.size(); j++) {
+                if (e.get(h) == e.get(j)) {
+                    continue;
+                }
+                if (e.get(h).y > e.get(j).y) {
+                    Collections.swap(e, h, j);
+                    h = j;
+
+                }
             }
         }
         Entity[] entities = new Entity[e.size()];

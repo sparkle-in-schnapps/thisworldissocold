@@ -78,7 +78,7 @@ public class JTextureManager {
         try {
             textures[number] = TextureLoader.getTexture(format, new FileInputStream(image));
             textures[number].setTextureFilter(GL11.GL_NEAREST);
-            names[number] = shortName;
+            names[number] = shortName.replace(System.getProperty("file.separator"), "/");
         } catch (IOException ex) {
             
         }
