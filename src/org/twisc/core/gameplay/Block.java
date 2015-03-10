@@ -13,7 +13,7 @@ public class Block {
     public static Block[] block = new Block[Byte.MAX_VALUE];
     public static void init(){
         block[0] = new Block("Grass", "tiles/grass.png", true);
-                
+        
     }
     /*Block type*/
 

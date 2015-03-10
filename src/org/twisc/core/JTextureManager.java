@@ -66,6 +66,7 @@ public class JTextureManager {
     private static Texture[] textures;
     private static String[] names;
     public static Texture getTexture(String name){
+        
         for (int i = 0; i < names.length; i++) {
             if(name.equals(names[i]))return textures[i];
         }
