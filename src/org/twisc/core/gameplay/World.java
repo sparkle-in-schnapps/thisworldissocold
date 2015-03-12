@@ -171,7 +171,6 @@ public final class World {
 
     public void init() {
         spawn("creatures.Player", 0.0, 0.0);
-        spawn("creatures.Mannequin", 0.0, 0.0);
         guis[0] = new Gui();
         guis[1] = new Gui();
         guis[0].init(0, 20, "button_left", "fps1");
