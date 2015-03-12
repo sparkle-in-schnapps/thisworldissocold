@@ -7,7 +7,7 @@ import org.twisc.core.Twisc;
 
 /**
  *
- * @author yew_mentzaki
+ * @author yew_mentzaki & whizzpered
  */
 public class TerrainChunk {
     int x, y;

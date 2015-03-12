@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author yew_mentzaki
+ * @author yew_mentzaki & whizzpered
  */
 public class Writer {
 

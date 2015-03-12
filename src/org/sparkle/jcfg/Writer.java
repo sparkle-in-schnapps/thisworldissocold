@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
 /*
- * Copyright (C) 2015 yew_mentzaki
+ * Copyright (C) 2015 yew_mentzaki & whizzpered
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ import java.io.PrintWriter;
 
 /**
  *
- * @author yew_mentzaki
+ * @author yew_mentzaki & whizzpered
  */
 public class Writer {
     public static String writeToString(JCFG jcfg){

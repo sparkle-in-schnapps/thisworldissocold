@@ -18,6 +18,7 @@ public class Mannequin extends Entity implements Serializable{
     public void render(Graphics g) {
         Image player = new Image(JTextureManager.getTexture("creatures/player/side.png"));
         player.draw(-player.getWidth()*3/2, -player.getHeight()*3, player.getWidth()*3, player.getHeight()*3);
+        
     }
     
 }

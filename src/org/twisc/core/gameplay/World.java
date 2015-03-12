@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Timer;
@@ -19,15 +20,18 @@ import org.apache.commons.lang.SerializationUtils;
 import org.newdawn.slick.Graphics;
 import org.sparkle.jbind.*;
 import org.twisc.core.Twisc;
+import org.twisc.core.gameplay.creatures.Player;
+import sun.java2d.pipe.RenderBuffer;
 
 /**
  *
- * @author yew_mentzaki
+ * @author yew_mentzaki & whizzpered
  */
 public final class World {
 
     public final Point targetCamera = new Point(0, 0);
     private Point camera = new Point(0, 0);
+    public static Random random = new Random();
 
     public World() {
         for (int i = 0; i < 5; i++) {
@@ -53,6 +57,7 @@ public final class World {
             while (true) {
                 try {
                     checkChunk();
+                    Thread.sleep(1000);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -96,6 +101,7 @@ public final class World {
                                 }
                                 byte[] bytes = part.getDataAsByteArray();
                                 Entity entity = (Entity) SerializationUtils.deserialize(bytes);
+                                entity.world = this;
                                 entities.add(entity);
                             }
                             System.out.println("terrain/part_" + String.valueOf(coord.x).replace('-', 'n') + "_" + String.valueOf(coord.y).replace('-', 'n') + ".chunk is loaded.");
@@ -103,6 +109,14 @@ public final class World {
                             Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     } else {
+                        for (int i = 0; i < 16; i++) {
+                            for (int j = 0; j < 16; j++) {
+                                if (random.nextInt(4) == 0) {
+                                    chunk.t[i][j] = (byte) random.nextInt(3);
+                                }
+                            }
+                        }
+                        
                         System.out.println("terrain/part_" + String.valueOf(coord.x).replace('-', 'n') + "_" + String.valueOf(coord.y).replace('-', 'n') + ".chunk is created.");
                     }
                     terrain.add(chunk);
@@ -134,6 +148,11 @@ public final class World {
                     }
                     try {
                         bind.addPart(new Part("terrain", ter));
+                        Entity[] entities = entitiesFromChunk(chunk.x+1536, chunk.y*1536);
+                        int num = 0;
+                        for (Entity e : entities) {
+                            bind.addPart(new Part("e" + (num++), SerializationUtils.serialize(e)));
+                        }
                     } catch (JBinDException ex) {
                         Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -153,6 +172,10 @@ public final class World {
     public void init() {
         spawn("creatures.Player", 0.0, 0.0);
         spawn("creatures.Mannequin", 0.0, 0.0);
+        guis[0] = new Gui();
+        guis[1] = new Gui();
+        guis[0].init(0, 20, "button_left", "fps1");
+        guis[1].init(10, 20, "button_right", "fps2");
     }
 
     public void pause() {
@@ -210,25 +233,25 @@ public final class World {
     public void render(Graphics g) {
         camera.x = targetCamera.x;
         camera.y = targetCamera.y;
-        TerrainChunk terrain[] = new TerrainChunk[this.terrain.size()];
-        for (int i = 0; true; i++) {
-            if (i >= this.terrain.size()) {
-                break;
-            }
-            terrain[i] = this.terrain.get(i);
-        }
-        for (TerrainChunk tc : terrain) {
+        try {
+            for (TerrainChunk tc : terrain) {
             glTranslated(-camera.x + Twisc.display_width / 2, -camera.y + Twisc.display_height / 2, 0);
             tc.render(g, camera);
             glLoadIdentity();
         }
+        } catch (Exception e) {
+            glLoadIdentity();
+        }
+        
         for (Entity e : entitiesForRender()) {
             double x = e.x, y = e.y;
             glTranslated(x - camera.x + Twisc.display_width / 2, y - camera.y + Twisc.display_height / 2, 0);
             e.render(g);
             glLoadIdentity();
         }
-
+        for (Gui gui : guis) {
+            gui.render(g);
+        }
     }
     private ArrayList<Entity> entities = new ArrayList<Entity>();
     private ArrayList<TerrainChunk> terrain = new ArrayList<TerrainChunk>();
@@ -247,7 +270,23 @@ public final class World {
         }
         return entities;
     }
-
+    public Entity[] entitiesFromChunk(int x, int y) {
+        ArrayList<Entity> e = new ArrayList<Entity>();
+        for (int i = 0; i < entities.size(); i++) {
+            Entity en = entities.get(i);
+            if(en instanceof Player)continue;
+            if (abs(en.x - x + 768) <= 768 && abs(en.y - y + 768) <= 768) {
+                e.add(en);
+                entities.remove(i);
+                i--;
+            }
+        }
+        Entity[] entities = new Entity[e.size()];
+        for (int i = 0; i < e.size(); i++) {
+            entities[i] = e.get(i);
+        }
+        return entities;
+    }
     public Entity[] entitiesForRender() {
         ArrayList<Entity> e = new ArrayList<Entity>();
         for (int i = 0; i < entities.size(); i++) {
@@ -277,4 +316,5 @@ public final class World {
         return entities;
     }
     private Timer[] timers = new Timer[5];
+    private Gui[] guis = new Gui[2];
 }

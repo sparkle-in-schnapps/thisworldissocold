@@ -7,7 +7,7 @@ import static org.twisc.core.gameplay.Side.*;
 
 /**
  *
- * @author yew_mentzaki
+ * @author yew_mentzaki & whizzpered
  */
 public class Sprite {
     
@@ -41,5 +41,11 @@ public class Sprite {
             side.draw(-side.getWidth()*3/2, -side.getHeight()*3, side.getWidth()*3, side.getHeight()*3);
             GL11.glScaled(-1, 1, 1);
         }
+        
+    }
+    Image guis;
+    public void guirender(Gui gui) {
+        if(guis == null)guis = new Image(JTextureManager.getTexture(s));
+        guis.draw(gui.location.x, gui.location.y);
     }
 }

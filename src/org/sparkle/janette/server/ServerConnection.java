@@ -17,7 +17,7 @@ import org.sparkle.jbind.Writer;
 
 /**
  *
- * @author yew_mentzaki
+ * @author yew_mentzaki & whizzpered
  */
 public final class ServerConnection {
 

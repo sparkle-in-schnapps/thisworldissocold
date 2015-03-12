@@ -5,12 +5,12 @@ import org.newdawn.slick.*;
 
 /**
  *
- * @author yew_mentzaki
+ * @author yew_mentzaki & whizzpered
  */
 public class Entity implements Serializable{
     public double x, y;
-    public World world;
-    boolean flag_RemoveEntityFromWorld = false;
+    transient public World world;
+    transient boolean flag_RemoveEntityFromWorld = false;
     public Entity() {
         
     }

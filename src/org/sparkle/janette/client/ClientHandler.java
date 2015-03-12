@@ -4,7 +4,7 @@ import org.sparkle.jbind.JBinD;
 
 /**
  *
- * @author yew_mentzaki
+ * @author yew_mentzaki & whizzpered
  */
 public class ClientHandler {
     public ClientHandler() {

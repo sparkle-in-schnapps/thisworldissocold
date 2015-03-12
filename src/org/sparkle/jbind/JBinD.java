@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author yew_mentzaki
+ * @author yew_mentzaki & whizzpered
  */
 public class JBinD {
 

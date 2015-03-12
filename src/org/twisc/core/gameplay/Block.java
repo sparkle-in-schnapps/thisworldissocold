@@ -6,14 +6,15 @@ import org.newdawn.slick.Graphics;
 
 /**
  *
- * @author yew_mentzaki
+ * @author yew_mentzaki & whizzpered
  */
 public class Block {
     /*Static Block contains all block types*/
     public static Block[] block = new Block[Byte.MAX_VALUE];
     public static void init(){
         block[0] = new Block("Grass", "tiles/grass.png", true);
-        
+        block[1] = new Block("Grass", "tiles/currant.png", true);
+        block[2] = new Block("Grass", "tiles/long_grass.png", true);
     }
     /*Block type*/
 

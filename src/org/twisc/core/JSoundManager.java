@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 yew_mentzaki
+ * Copyright (C) 2015 yew_mentzaki & whizzpered
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ import org.newdawn.slick.opengl.TextureLoader;
 
 /**
  *
- * @author yew_mentzaki
+ * @author yew_mentzaki & whizzpered
  */
 public class JSoundManager {
     static ArrayList<JLoadTask> load(){

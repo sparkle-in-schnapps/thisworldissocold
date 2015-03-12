@@ -1,9 +1,12 @@
 package org.twisc.core;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -15,22 +18,36 @@ import org.newdawn.slick.opengl.Texture;
 import org.sparkle.fontrender.FontRender;
 import org.sparkle.jcfg.JCFG;
 import org.sparkle.jcfg.Parser;
+import org.sparkle.jcfg.Writer;
 import org.twisc.core.gameplay.*;
 
 /**
  *
- * @author yew_mentzaki
+ * @author yew_mentzaki & whizzpered
  */
 public class Twisc {
 
     public static JCFG settings, conf = new JCFG();
     public static World world;
+    public static void exit(){
+        File cfg = new File("conf.cfg");
+
+        conf.set("w", Display.getWidth());
+        conf.set("h", Display.getHeight());
+        conf.set("x", Display.getX());
+        conf.set("y", Display.getY());
+        try {
+            Writer.writeToFile(conf, cfg);
+        } catch (FileNotFoundException ex) {
+            System.exit(1);
+        }
+        System.exit(0);
+    }
 
     public static void main(String[] args) {
         setNatives();
         setGraphics();
     }
-
     public static void setNatives() {
 
         if (!new File("native").exists()) {
@@ -121,6 +138,7 @@ public class Twisc {
                         logo.draw(display_width / 2 - logo.getWidth() / 2, display_height / 2 - logo.getHeight() / 2);
                         Display.update();
                     }
+                    
                     FontRender fontRender = FontRender.getTextRender("Sans", 0, 20);
                     ArrayList<JLoadTask> jlt = new ArrayList<JLoadTask>();
                     jlt.addAll(JMusicManager.load());
@@ -179,6 +197,9 @@ public class Twisc {
                     //JMusicManager.start();
                     World world = new World();
                     while (true) {
+                        if(Display.isCloseRequested()){
+                            exit();
+                        }
                         display_width = Display.getWidth();
                         display_height = Display.getHeight();
                         GL11.glClearColor(0, 0, 0, 1);
