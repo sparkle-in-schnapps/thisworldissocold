@@ -172,10 +172,10 @@ public final class World {
 
     public void init() {
         spawn("creatures.Player", 0.0, 0.0);
-        guis[0] = new Gui();
-        guis[1] = new Gui();
-        guis[0].init(0, 20, "button_left", "fps1");
-        guis[1].init(10, 20, "button_right", "fps2");
+        guis.add(new Gui());
+        guis.add(new Gui());
+        guis.get(1).init(0, 20, "button_left", "fps1");
+        guis.get(2).init(10, 20, "button_right", "fps2");
     }
 
     public void pause() {
@@ -338,5 +338,5 @@ public final class World {
         return entities;
     }
     private Timer[] timers = new Timer[5];
-    private Gui[] guis = new Gui[2];
+    public ArrayList<Gui> guis = new ArrayList<Gui>();
 }
