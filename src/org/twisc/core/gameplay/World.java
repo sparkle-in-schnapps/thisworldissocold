@@ -244,8 +244,8 @@ public final class World {
             terrain[i] = this.terrain.get(i);
         }
         TerrainChunk currChunk = terrain[0];
-        for (int x = camera.x / 96 - 1 -  Display.getWidth() / 2 / 96; x <= camera.x / 96 + Display.getWidth() / 2 / 96 + 1; x += 1) {
-            for (int y = camera.y / 96 - 1 -  Display.getWidth() / 2 / 96; y <= camera.y / 96 + Display.getHeight() / 2 / 96 + 1; y += 1) {
+        for (int x = camera.x / 96 - 2 -  Display.getWidth() / 2 / 96; x <= camera.x / 96 + Display.getWidth() / 2 / 96 + 1; x += 1) {
+            for (int y = camera.y / 96 - 2 -  Display.getWidth() / 2 / 96; y <= camera.y / 96 + Display.getHeight() / 2 / 96 + 1; y += 1) {
                 Block b = currChunk.getBlock(x * 96, y * 96);
                 if (b == null) {
                     for (TerrainChunk cc : terrain) {
@@ -290,7 +290,7 @@ public final class World {
         }
         return entities;
     }
-
+    
     public Entity[] entitiesFromChunk(int x, int y) {
         ArrayList<Entity> e = new ArrayList<Entity>();
         for (int i = 0; i < entities.size(); i++) {

