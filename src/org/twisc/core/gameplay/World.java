@@ -36,7 +36,7 @@ public final class World {
 
     public World() {
         for (int i = 0; i < 5; i++) {
-            timers[i] = new Timer(100, new ActionListener() {
+            timers[i] = new Timer(25, new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     tick();
                 }
@@ -176,6 +176,7 @@ public final class World {
         guis.add(new Gui());
         guis.get(1).init(0, 20, "button_left", "fps1");
         guis.get(2).init(10, 20, "button_right", "fps2");
+        pause();
     }
 
     public void pause() {
@@ -184,7 +185,7 @@ public final class World {
             public void run() {
                 for (int i = 0; i < 5; i++) {
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(5);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -233,6 +234,7 @@ public final class World {
     public void render(Graphics g) {
         camera.x = targetCamera.x;
         camera.y = targetCamera.y;
+        Keyboard.updateKeyboard();
 
         TerrainChunk terrain[] = new TerrainChunk[this.terrain.size()];
         for (int i = 0; true; i++) {
