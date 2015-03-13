@@ -12,7 +12,7 @@ import org.twisc.core.Twisc;
 public class TerrainChunk {
     int x, y;
     byte[][] t = new byte[16][16];
-    public void render(Graphics g, Point camera){
+    /*public void render(Graphics g, Point camera){
         glTranslated(x*1536, y*1536, 0);
         for (int x = 0; x < 16; x++) {
             for (int y = 0; y < 16; y++) {
@@ -24,5 +24,15 @@ public class TerrainChunk {
             }
         }
         glTranslated(-x*1536, -y*1536, 0);
+    }*/
+    public Block getBlock(int x, int y){
+        if(x>=this.x*1536&&x<this.x*1536+1536&&y>=this.y*1536&&y<this.y*1536+1536){
+            x -= this.x*1536;
+            y -= this.y*1536;
+            x /= 96;
+            y /= 96;
+            return Block.block[t[x][y]];
+        }
+        return null;
     }
 }
