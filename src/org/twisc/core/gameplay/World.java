@@ -36,7 +36,7 @@ public final class World {
 
     public World() {
         for (int i = 0; i < 5; i++) {
-            timers[i] = new Timer(100, new ActionListener() {
+            timers[i] = new Timer(25, new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     tick();
                 }
@@ -69,7 +69,7 @@ public final class World {
     private void checkChunk() {
         Point camera = this.camera;
         ArrayList<TerrainChunk> checked = new ArrayList<TerrainChunk>();
-        for (int x = -1; x <= 1; x++) {
+        for (int x = -2; x <= 1; x++) {
             for (int y = -2; y <= 1; y++) {
                 boolean unloaded = true;
                 for (TerrainChunk chunk : terrain) {
@@ -176,6 +176,7 @@ public final class World {
         guis.add(new Gui());
         guis.get(1).init(0, 20, "button_left", "fps1");
         guis.get(2).init(10, 20, "button_right", "fps2");
+        pause();
     }
 
     public void pause() {
@@ -184,7 +185,7 @@ public final class World {
             public void run() {
                 for (int i = 0; i < 5; i++) {
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(5);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -233,6 +234,7 @@ public final class World {
     public void render(Graphics g) {
         camera.x = targetCamera.x;
         camera.y = targetCamera.y;
+        Keyboard.updateKeyboard();
 
         TerrainChunk terrain[] = new TerrainChunk[this.terrain.size()];
         for (int i = 0; true; i++) {
@@ -242,8 +244,8 @@ public final class World {
             terrain[i] = this.terrain.get(i);
         }
         TerrainChunk currChunk = terrain[0];
-        for (int x = camera.x / 96 - 1 -  Display.getWidth() / 2 / 96; x <= camera.x / 96 + Display.getWidth() / 2 / 96 + 1; x += 1) {
-            for (int y = camera.y / 96 - 1 -  Display.getWidth() / 2 / 96; y <= camera.y / 96 + Display.getHeight() / 2 / 96 + 1; y += 1) {
+        for (int x = camera.x / 96 - 2 -  Display.getWidth() / 2 / 96; x <= camera.x / 96 + Display.getWidth() / 2 / 96 + 1; x += 1) {
+            for (int y = camera.y / 96 - 2 -  Display.getWidth() / 2 / 96; y <= camera.y / 96 + Display.getHeight() / 2 / 96 + 1; y += 1) {
                 Block b = currChunk.getBlock(x * 96, y * 96);
                 if (b == null) {
                     for (TerrainChunk cc : terrain) {
@@ -288,7 +290,7 @@ public final class World {
         }
         return entities;
     }
-
+    
     public Entity[] entitiesFromChunk(int x, int y) {
         ArrayList<Entity> e = new ArrayList<Entity>();
         for (int i = 0; i < entities.size(); i++) {
