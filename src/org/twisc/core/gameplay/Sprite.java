@@ -49,7 +49,7 @@ public class Sprite {
             if(guis == null)guis = new Image(JTextureManager.getTexture(s+".png"));
             if(guis2 == null)guis2 = new Image(JTextureManager.getTexture(s+"_sc.png"));
             guis.draw(gui.location.x, gui.location.y);
-            GL11.glTexCoord2f((gui.player.thishp-gui.player.currhp)/gui.player.thishp, 1f);
+            GL11.glTexCoord2f(gui.player.currhp/gui.player.thishp, 1f);
             guis2.draw(gui.location.x, gui.location.y);
         }
         else {
